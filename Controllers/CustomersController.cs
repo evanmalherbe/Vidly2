@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Vidly2.Data;
 using Vidly2.Models;
+using Vidly2.ViewModels;
 
 namespace Vidly2.Controllers
 {
@@ -19,18 +20,24 @@ namespace Vidly2.Controllers
 			_context.Dispose();
 		}
 
+		public IActionResult New()
+		{
+			var types = _context.MembershipType.ToList();
+		
+			var viewModel = new NewCustomerViewModel
+			{
+				MembershipTypes = types
+			};
+
+			return View(viewModel);
+		}
+
 		// customers/details/{id}
 		public IActionResult Details(int id)
 	 {
 		var customer = _context.Customers
 				.Include(c => c.MembershipType)
 				.SingleOrDefault(c => c.Id == id);
-				
-		//		new List<Customer>
-		//{
-		//	new Customer { Name = "Jane Smith"},
-		//	new Customer { Name = "Bob Hope"}
-		//};
 
 		if (customer == null)
 		{
@@ -43,11 +50,6 @@ namespace Vidly2.Controllers
 		public IActionResult CustomerList()
 		{
 			var customers = _context.Customers.Include(c => c.MembershipType).ToList();
-			//var customers = new List<Customer>
-			//{
-			//	new Customer { Name = "Jane Smith"},
-			//	new Customer { Name = "Bob Hope"}
-			//};
 
 			var customerList = new CustomerList
 			{
