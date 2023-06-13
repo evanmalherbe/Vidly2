@@ -1,4 +1,8 @@
 ﻿@model Vidly2.Models.MovieList
+@{
+	int i = 1;
+}
+
 <h1>Movies</h1>
 
 @if (Model.Movies.Count == 0)
@@ -17,8 +21,9 @@ else
 		@foreach(var movie in Model.Movies)
 		{
 			<tr>
-					<td>@movie.Name</td>
+					<td><a href="/movies/details/@i">@movie.Name</a></td>
 			</tr>
+			i++;
 		}
 		</tbody>
 	</table>

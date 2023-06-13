@@ -2,9 +2,9 @@
 
 <h1>@Model.Name</h1>
 <ul>
-	<li>Membership Type: @Model.MembershipType.Name</li>
+	<li><strong>Membership Type:</strong> @Model.MembershipType.Name</li>
 	@if (Model.Birthdate != null)
 	{
-		<li>Birth date: @Convert.ToDateTime(Model.Birthdate).ToString("MM/dd/yyyy")</li>
+		<li><strong>Birth date:</strong> @Convert.ToDateTime(Model.Birthdate).ToString("MM/dd/yyyy")</li>
 	}
 </ul>
