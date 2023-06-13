@@ -1,0 +1,26 @@
+﻿@model Vidly2.Models.MovieList
+<h1>Movies</h1>
+
+@if (Model.Movies.Count == 0)
+{
+	<p>No movies available.</p>
+}
+else
+{
+	<table class="table table‐bordered">
+		<thead>
+		<tr>
+			<th>Movies</th>
+		</tr>
+		</thead>
+		<tbody>
+		@foreach(var movie in Model.Movies)
+		{
+			<tr>
+					<td>@movie.Name</td>
+			</tr>
+		}
+		</tbody>
+	</table>
+}
+

@@ -1,0 +1,30 @@
+﻿@model Vidly2.Models.CustomerList
+@{
+	int i = 0;
+}
+
+<h1>Customers</h1>
+
+@if (Model.Customers.Count == 0)
+{
+	<p>No customers yet.</p>
+}
+else
+{
+	<table class="table table‐bordered">
+		<thead>
+			<tr>
+				<th>Customers</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var customer in Model.Customers)
+			{
+				<tr>
+					<td><a href="/customers/details/@i">@customer.Name</a></td>
+				</tr>
+				i++;
+			}
+		</tbody>
+	</table>
+}
