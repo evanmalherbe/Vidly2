@@ -41,5 +41,13 @@ else
 	</div>
 
 	@Html.HiddenFor(m => m.Customer.Id);
+	@Html.AntiForgeryToken()
 	<button type="submit" class="btn btn-primary">Save</button>
+}
+
+@section scripts 
+{
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
 }
