@@ -36,19 +36,39 @@ namespace Vidly2.Controllers
 				Customers = customers
 			};
 
-			//ViewData["Movie"] = movie;
-			//ViewBag.Movie = movie;
-
 			return View(viewModel);
-		 // return Content("Hello world!");
-		// return new EmptyResult();
-	 // return RedirectToAction("Index", "Home", new {page = 1, sortBy = "name"});
+
 		}
 
 		// movies/edit/{id}
 		public IActionResult Edit(int id)
 		{
 			return Content("id=" + id);
+		}
+
+		public IActionResult New()
+		{
+			var genres = _context.Genres.ToList();
+		
+			var viewModel = new MovieFormViewModel
+			{
+				Genres = genres
+			};
+
+			return View("MovieForm", viewModel);
+		}
+
+		[HttpPost]
+		public IActionResult Save(Movie movie)
+		{
+			if (movie.Id == 0)
+			{
+				_context.Movies.Add(movie);
+			}
+			
+			_context.SaveChanges();
+
+			return RedirectToAction("MovieList", "Movies");
 		}
 
 		public IActionResult MovieList()

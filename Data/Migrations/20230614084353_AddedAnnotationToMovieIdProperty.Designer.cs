@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Vidly2.Data;
 
@@ -11,9 +12,10 @@ using Vidly2.Data;
 namespace Vidly2.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230614084353_AddedAnnotationToMovieIdProperty")]
+    partial class AddedAnnotationToMovieIdProperty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -304,10 +306,7 @@ namespace Vidly2.Data.Migrations
                     b.Property<DateTime>("DateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<byte>("GenreId")
-                        .HasColumnType("tinyint");
-
-                    b.Property<int>("GenreId1")
+                    b.Property<int>("GenreId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -322,7 +321,7 @@ namespace Vidly2.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GenreId1");
+                    b.HasIndex("GenreId");
 
                     b.ToTable("Movies");
                 });
@@ -393,7 +392,7 @@ namespace Vidly2.Data.Migrations
                 {
                     b.HasOne("Vidly2.Models.Genre", "Genre")
                         .WithMany()
-                        .HasForeignKey("GenreId1")
+                        .HasForeignKey("GenreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
