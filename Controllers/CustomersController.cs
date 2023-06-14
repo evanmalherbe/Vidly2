@@ -24,12 +24,50 @@ namespace Vidly2.Controllers
 		{
 			var types = _context.MembershipType.ToList();
 		
-			var viewModel = new NewCustomerViewModel
+			var viewModel = new CustomerFormViewModel
 			{
 				MembershipTypes = types
 			};
 
-			return View(viewModel);
+			return View("CustomerForm", viewModel);
+		}
+
+		[HttpPost]
+		public IActionResult Save(Customer customer)
+		{
+			if (customer.Id == 0)
+			{
+				_context.Customers.Add(customer);
+			}
+			else
+			{
+				var customerInDb = _context.Customers.Single(c => c.Id == customer.Id);
+				customerInDb.Name = customer.Name;
+				customerInDb.Birthdate = customer.Birthdate;
+				customerInDb.MembershipTypeId = customer.MembershipTypeId;
+				customerInDb.IsSubscribedToNewsletter = customer.IsSubscribedToNewsletter;
+			}
+		
+			_context.SaveChanges();
+
+			return RedirectToAction("CustomerList", "Customers");
+		}
+
+		public IActionResult Edit(int id)
+		{
+			Customer? customer = _context.Customers.SingleOrDefault(c => c.Id == id);
+			if (customer == null)
+			{
+				return NotFound();
+			}
+
+			CustomerFormViewModel viewModel = new CustomerFormViewModel
+			{
+				Customer = customer,
+				MembershipTypes = _context.MembershipType.ToList()
+			};
+
+			return View("CustomerForm", viewModel);
 		}
 
 		// customers/details/{id}
