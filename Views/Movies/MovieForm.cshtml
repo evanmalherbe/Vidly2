@@ -1,6 +1,14 @@
 ﻿@model Vidly2.ViewModels.MovieFormViewModel
 
-<h2>New Movie</h2>
+@if (Model.Movie.Id != 0)
+{
+	<h2>Edit Movie</h2>
+}
+else
+{
+	<h2>New Movie</h2>
+}
+
 
 @using (Html.BeginForm("Save", "Movies"))
 {
