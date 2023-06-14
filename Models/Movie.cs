@@ -10,19 +10,20 @@ namespace Vidly2.Models
     [Required]
     public string Name { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "Release date is required.")]
     [Display(Name = "Release date")]
     public DateTime ReleaseDate { get; set; }
 
-    [Required]
-     [Display(Name = "Date Added")]
+    [Required(ErrorMessage = "Date Added is required.")]
+    [Display(Name = "Date Added")]
     public DateTime DateAdded { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "Number in Stock field is required.")]
+    [Range(1,20, ErrorMessage = "The field Number in Stock must be between 0 to 20")]
     [Display(Name = "Number in Stock")]
     public byte NumberInStock { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "Genre is required.")]
     [Display(Name = "Genre")]
     public int GenreId { get; set; }
 
