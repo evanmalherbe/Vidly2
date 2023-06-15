@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Vidly2.Data;
+using Vidly2.Dtos;
 using Vidly2.Models;
 
 namespace Vidly2.Controllers.Api
@@ -18,40 +21,44 @@ namespace Vidly2.Controllers.Api
 		}
 
 		// GET /api/customers
-		public IEnumerable<Customer> GetCustomers()
+		public IActionResult GetCustomers()
 		{
-			return _context.Customers.ToList();
+			return Ok(_context.Customers.ToList().Select(Mapper.Map<Customer, CustomerDto>));
 		}
 
 		// GET /api/customers/1
-		public Customer GetCustomer(int id)
+		[HttpGet("{id}")]
+		public IActionResult GetCustomer(int id)
 		{
 			var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
 
 			if (customer == null)
 			{
-				throw new HttpRequestException(HttpStatusCode.NotFound.ToString());
+				return NotFound();
 			}
 
-			return customer;
+			return Ok(Mapper.Map<Customer, CustomerDto>(customer));
 		}
 
 		// POST /api/customers
 		[HttpPost]
-		public Customer CreateCustomer(Customer customer)
+		public IActionResult CreateCustomer(CustomerDto customerDto)
 		{
 			if(!ModelState.IsValid)
-				throw new HttpRequestException(HttpStatusCode.BadRequest.ToString());
+				return BadRequest();
 
+			var customer = Mapper.Map<CustomerDto, Customer>(customerDto);
 			_context.Customers.Add(customer);
 			_context.SaveChanges();
 
-			return customer;
+			customerDto.Id = customer.Id;
+
+			return Created(new Uri(Request.GetDisplayUrl() + "/" + customer.Id), customerDto);
 		}
 
 		// PUT /api/customers/1
-		[HttpPut]
-		public void UpdateCustomer(int id, Customer customer)
+		[HttpPut("{id}")]
+		public void UpdateCustomer(int id, CustomerDto customerDto)
 		{
 			if(!ModelState.IsValid)
 				throw new HttpRequestException(HttpStatusCode.BadRequest.ToString());
@@ -61,17 +68,15 @@ namespace Vidly2.Controllers.Api
 			if (customerInDb == null)
 				throw new HttpRequestException(HttpStatusCode.NotFound.ToString());
 
-			customerInDb.Name = customer.Name;
-			customerInDb.Birthdate = customer.Birthdate;
-			customerInDb.IsSubscribedToNewsletter = customer.IsSubscribedToNewsletter;
-			customerInDb.MembershipTypeId = customer.MembershipTypeId;
-
+			//Mapper.Map<CustomerDto, Customer>(customerDto, customerInDb);
+			Mapper.Map(customerDto, customerInDb);
 			_context.SaveChanges();
+				
 		}
 
 		// DELETE /api/customers/1
-		[HttpDelete]
-		public void DeleteCustomer(int id)
+		[HttpDelete("{id}")]
+		public void Delete(int id)
 		{
 			var customerInDb = _context.Customers.SingleOrDefault(c => c.Id == id);
 
@@ -80,6 +85,7 @@ namespace Vidly2.Controllers.Api
 
 			_context.Customers.Remove(customerInDb);
 			_context.SaveChanges();	
+		
 		}
 	}
 }
