@@ -58,8 +58,8 @@ namespace Vidly2.Controllers.Api
 		}
 
 		// PUT /api/movies/1
-		[HttpPut]
-		public void UpdateMovie(int id, MovieDto movieDto)
+		[HttpPut("{id}")]
+		public void Put(int id, MovieDto movieDto)
 		{
 			if (!ModelState.IsValid)
 				throw new HttpRequestException(HttpStatusCode.BadRequest.ToString());
@@ -74,8 +74,8 @@ namespace Vidly2.Controllers.Api
 		}
 
 		// DELETE /api/movies/1
-		[HttpDelete]
-		public void DeleteMovie(int id)
+		[HttpDelete("{id}")]
+		public void Delete(int id)
 		{
 			var movieInDb = _context.Movies.SingleOrDefault(m => m.Id == id);
 
