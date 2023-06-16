@@ -8,6 +8,7 @@ namespace Vidly2
 	{
 			public MappingProfile()
 			{
+				
 				Mapper.CreateMap<Customer, CustomerDto>();
 				Mapper.CreateMap<CustomerDto, Customer>();
 				Mapper.CreateMap<MovieDto, Movie>();

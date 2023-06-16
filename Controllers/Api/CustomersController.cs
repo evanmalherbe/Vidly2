@@ -41,7 +41,7 @@ namespace Vidly2.Controllers.Api
 				return NotFound();
 			}
 
-			return Ok(Mapper.Map<Customer, CustomerDto>(customer));
+			return Ok(customer);
 		}
 
 		// POST /api/customers
