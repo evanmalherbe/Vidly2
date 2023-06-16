@@ -26,7 +26,6 @@ namespace Vidly2.Models
     [Required(ErrorMessage = "Genre is required.")]
     [Display(Name = "Genre")]
     public int GenreId { get; set; }
-
     public Genre? Genre { get; set; }
   }
     

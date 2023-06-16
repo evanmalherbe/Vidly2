@@ -104,14 +104,7 @@ namespace Vidly2.Controllers
 
 		public IActionResult MovieList()
 		{
-			var movies = _context.Movies.Include(c => c.Genre).ToList();
-
-			var list = new MovieList
-			{
-				Movies = movies
-			};
-
-			return View(list);
+			return View();
 		}
 
 		public IActionResult Details(int id)

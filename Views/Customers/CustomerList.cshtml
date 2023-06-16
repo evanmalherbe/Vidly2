@@ -1,17 +1,10 @@
-﻿@model Vidly2.Models.CustomerList
-@{
+﻿@{
 	int i = 1;
 }
 
 <h1>Customers</h1>
 <a href="/customers/new" class="btn btn-primary mb-2">New Customer</a>
 
-@if (Model.Customers.Count == 0)
-{
-	<p>No customers yet.</p>
-}
-else
-{
 	<table id="customers" class="display">
 		<thead>
 			<tr>
@@ -21,23 +14,38 @@ else
 			</tr>
 		</thead>
 		<tbody>
-			@foreach (var customer in Model.Customers)
-			{
-				<tr>
-					<td><a href="/customers/edit/@i">@customer.Name</a></td>
-					<td>@customer.MembershipType.Name</td>
-					<td><button data-customer-id="@customer.Id" class="btn btn-link js-delete">Delete</button></td>
-				</tr>
-				i++;
-			}
 		</tbody>
 	</table>
-}
 
 @section scripts {
 	<script>
 		$(document).ready(function() {
-			$("#customers").DataTable();
+			var table = $("#customers").DataTable(
+			{
+				ajax: {
+					url: "/api/customers",
+					dataSrc: ""
+				},
+				columns: 
+				[
+					{
+						data: "name",
+						render: function(data, type, customer) {
+								return "<a href='/customers/edit/" + customer.id + "'>" + customer.name + "</a>";
+						}
+					},
+					{
+						data: "membershipType.name"
+					},
+					{
+						data: "id",
+						render: function(data) {
+							return "<button class='btn btn-link js-delete' data-customer-id='" + data + "'>Delete</button>";
+
+						}
+					}
+				]
+			});
 
 			$("#customers").on("click",".js-delete", function () {
 				var button = $(this);
@@ -50,7 +58,7 @@ else
 							method: "DELETE",
 							success: function ()
 							{
-								button.parents("tr").remove();
+								table.row(button.parents("tr")).remove().draw();
 							}
 						});
 					}

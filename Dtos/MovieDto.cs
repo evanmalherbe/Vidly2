@@ -22,6 +22,8 @@ namespace Vidly2.Dtos
 			public byte NumberInStock { get; set; }
 
 			[Required(ErrorMessage = "Genre is required.")]
-			public int GenreId { get; set; } 
-	}
+			public int GenreId { get; set; }
+
+      public GenreDto Genre { get; set; }
+    }
 }

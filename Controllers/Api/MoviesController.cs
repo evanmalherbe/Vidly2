@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 using Vidly2.Data;
 using Vidly2.Dtos;
@@ -24,7 +25,10 @@ namespace Vidly2.Controllers.Api
 		// GET /api/movies
 		public IActionResult GetMovies()
 		{
-			return Ok(_context.Movies.ToList().Select(Mapper.Map<Movie, MovieDto>));
+			return Ok(_context.Movies
+				.Include(m => m.Genre)
+				.ToList()
+				.Select(Mapper.Map<Movie, MovieDto>));
 		}
 
 		// GET /api/movies/1

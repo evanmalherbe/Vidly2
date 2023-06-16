@@ -100,14 +100,14 @@ namespace Vidly2.Controllers
 
 		public IActionResult CustomerList()
 		{
-			var customers = _context.Customers.Include(c => c.MembershipType).ToList();
+			//var customers = _context.Customers.Include(c => c.MembershipType).ToList();
 
-			var customerList = new CustomerList
-			{
-				Customers = customers
-			};
+			//var customerList = new CustomerList
+			//{
+			//	Customers = customers
+			//};
 
-			return View(customerList);
+			return View();
 		}
 	}
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 using Vidly2.Data;
 using Vidly2.Dtos;
@@ -23,7 +24,10 @@ namespace Vidly2.Controllers.Api
 		// GET /api/customers
 		public IActionResult GetCustomers()
 		{
-			return Ok(_context.Customers.ToList().Select(Mapper.Map<Customer, CustomerDto>));
+			return Ok(_context.Customers
+				.Include(c => c.MembershipType)
+				.ToList()
+				.Select(Mapper.Map<Customer, CustomerDto>));
 		}
 
 		// GET /api/customers/1
