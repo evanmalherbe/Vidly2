@@ -5,7 +5,7 @@ using Vidly2.Models;
 
 namespace Vidly2.Controllers
 {
-	//[AllowAnonymous]
+	[AllowAnonymous]
 	public class HomeController : Controller
 	{
 		private readonly ILogger<HomeController> _logger;
