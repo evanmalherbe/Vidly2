@@ -1,3 +1,4 @@
+using ASPNetCoreIdentityCustomFields.Data;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -26,7 +27,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 //options => options.SignIn.RequireConfirmedAccount = true
 
 builder.Services
-	.AddDefaultIdentity<IdentityUser>()
+	.AddDefaultIdentity<ApplicationUser>()
 	.AddRoles<IdentityRole>()
 	.AddEntityFrameworkStores<ApplicationDbContext>();
 
