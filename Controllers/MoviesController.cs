@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Vidly2.Data;
 using Vidly2.Models;
@@ -57,6 +58,7 @@ namespace Vidly2.Controllers
 			return View("MovieForm", viewModel);
 		}
 
+		[Authorize(Roles = RoleName.CanManageMovies)]
 		public IActionResult New()
 		{
 			var genres = _context.Genres.ToList();
@@ -104,7 +106,10 @@ namespace Vidly2.Controllers
 
 		public IActionResult MovieList()
 		{
-			return View();
+			if (User.IsInRole(RoleName.CanManageMovies))
+				return View("MovieList");
+	
+			return View("ReadOnlyList");
 		}
 
 		public IActionResult Details(int id)
